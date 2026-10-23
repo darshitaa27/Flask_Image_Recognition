@@ -9,12 +9,12 @@ model = load_model("digit_model.h5")
 
 
 def preprocess_img(img_path):
-    """Resize and normalize an image into the model's input batch."""
-    op_img = Image.open(img_path)
-    img_resize = op_img.resize((224, 224))
-    img2arr = img_to_array(img_resize) / 255.0
-    img_reshape = img2arr.reshape(1, 224, 224, 3)
-    return img_reshape
+    """Convert an image into a normalized RGB batch for the model."""
+    with Image.open(img_path) as image:
+        resized_image = image.convert("RGB").resize((224, 224))
+        image_array = img_to_array(resized_image) / 255.0
+
+    return image_array.reshape(1, 224, 224, 3)
 
 
 def predict_result(predict):
